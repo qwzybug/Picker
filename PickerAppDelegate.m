@@ -8,6 +8,7 @@
 
 #import "PickerAppDelegate.h"
 #import "PickerBackgroundView.h"
+#import "PickerWindow.h"
 
 /* A few private APIs we need */
 
@@ -46,24 +47,10 @@
 	[_statusItem setAction:@selector(menuWillOpen:)];
 }
 
--(NSWindow *)createWindow
+- (NSWindow *)createWindow
 {
-	PickerBackgroundView *v = [[PickerBackgroundView alloc] initWithFrame:NSMakeRect(0, 0, 320, 410)];
-	
-	NSRect vFrame = v.bounds;
-	vFrame.size.height-=10;
-
-	NSWindow *win = [[NSWindow alloc] initWithContentRect:v.frame styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
-	[win setHasShadow:YES];
-	[win setLevel:NSStatusWindowLevel];
-	[win setOpaque:NO];
-	[win setBackgroundColor:[NSColor clearColor]];
-	[win setCollectionBehavior:NSWindowCollectionBehaviorStationary];
-
-	[win setContentView:v];
-	[v release];
-	
-	return win;
+    PickerWindow *win = [[PickerWindow alloc] initWithSize:(CGSize){.width = 320, .height = 410}];
+    return win;
 }
 
 -(void)populate
@@ -161,7 +148,7 @@
 		[popupWindow makeKeyAndOrderFront:self];
 		
 		[[NSAnimationContext currentContext] setDuration:0.15];
-		[[popupWindow animator] setAlphaValue:1.0];	
+		[[popupWindow animator] setAlphaValue:1.0];
 	}
 }
 
